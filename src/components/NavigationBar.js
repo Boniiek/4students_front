@@ -4,6 +4,7 @@ import ProfileIcon from "../images/profile.png"
 import AddOrder from "../images/AddOrders.png"
 import Modal from "./Modal";
 import BtnSend from "../images/BtnSend.png"
+import Coin from "../images/coin.png"
 
 const NavigationBar =()=>{
     const {user} = useContext(Context)
@@ -23,8 +24,12 @@ const NavigationBar =()=>{
         <div className="NavbarAuth">
             <button className="AddOrderBtn" onClick={()=>setModalActive(true)}><img className="AddOrderIcon" alt="img" src={AddOrder}/></button>
             <Modal active={modalActive} setActive={setModalActive}>
-                <div className="secondPartOfName" style={{fontSize:"50px",color: "#364958bf",padding:"10px"}}>
+                <div className="secondPartOfName" style={{fontSize:"50px",color: "#364958bf",padding:"10px",display:"flex",justifyContent:"space-between"}}>
                     Добавить заказ
+                    <div >
+                        <input className="InputModalCoin"></input>
+                        <img alt="icon" src={Coin} style={{flex:"0 0 auto"}}></img>
+                    </div>
                 </div>
                 <div>
                     <input className="InputOrderTitle" placeholder="Название объявления..." type="text"></input>
