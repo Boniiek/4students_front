@@ -1,15 +1,39 @@
-import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import React, { useState,useContext} from "react";
+import { NavLink, useLocation,useHistory } from "react-router-dom";
 import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
+import {login, registration} from "../http/userAPI";
+import {Context} from "../index";
 
 
 
 const Auth =() =>{
     const location = useLocation();
     const isLogin = location.pathname === LOGIN_ROUTE
-    
+    const [email,Setemail]=useState('')
+    const [password,SetPassword]=useState('')
+    const {user} = useContext(Context)
+    const history = useHistory()
+    const [login,Setlogin] = useState('')
+
+    const click=async()=>{
+          try {
+               let data;
+              if (isLogin) {
+                   data = await login(email, password);
+               } else {
+                   data = await registration(email,login,password);
+               }
+               user.setUser(user)
+               user.setIsAuth(true)
+               history.push(MAIN_ROUTE)
+            } catch (e) {
+                alert(e.message)
+            }
+
+    }
+
     return(
-        //style = {{background:'rgba(201, 228, 202, 1)' ,height: 750}}
+        
         <div className="validLogin" >
             <div>
                 <span className="firstPartOfName">4S</span><span className="secondPartOfName">tudents</span>
@@ -30,13 +54,30 @@ const Auth =() =>{
                         <input className="emailBox"
                         type="email"
                         placeholder="Введите ваш email..."
+                        value={email}
+                        onChange={(e)=>Setemail(e.target.value)}
                         />
+                        {isLogin?
+                        <></>
+                        :
+                        <input className="emailBox"
+                        type="text"
+                        placeholder="Введите логин"
+                        value={login}
+                        onChange={(e)=>Setlogin(e.target.value)}
+                        />
+                        }
                         <input className="emailBox"
                         type="password"
                         placeholder="Введите ваш пароль..."
+                        value={password}
+                        onChange={(e)=>SetPassword(e.target.value)}
                         />
                         <button className="authButton">
-                            <div className="buttonWord">{isLogin ? 'Войти' : 'Зарегистрироваться'}</div>
+                            <div 
+                            className="buttonWord"
+                            onClick={click}
+                            >{isLogin ? 'Войти' : 'Зарегистрироваться'}</div>
                         </button>
                         {isLogin ?
                             <div className="helpWord">

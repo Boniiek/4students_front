@@ -1,8 +1,16 @@
-import React from 'react';
+import React,{createContext} from 'react';
 import ReactDOM  from 'react-dom';
 import App from './App';
+import UserStore from './store/userStore';
+import OrderStore from './store/orderStore'
+export const Context = createContext(null)
 
 ReactDOM.render(
-    <App/>,
-    document.getElementById('root')
+    <Context.Provider value={{
+        user: new UserStore(),
+        order: new OrderStore(),
+    }}>
+        <App />
+    </Context.Provider>,
+  document.getElementById('root')
 );
